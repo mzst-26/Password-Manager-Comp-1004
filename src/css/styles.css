@@ -15,11 +15,11 @@ body{
 
 
 .top-menu { 
-    margin-bottom: 50px;
+ margin-bottom: 50px;
     display: flex;   
     justify-content: space-between;
     align-items: center;padding: 20px 0;
-  
+   
 }
 
 .container {    
@@ -31,8 +31,10 @@ body{
 
 .logo{
     color : #4CAF50; 
+    font-size: 24px;
     font-weight : bold;
 }.icon-button {
+    font-size: 20px;
     cursor: pointer;
     padding: 10px;
     background: none;
@@ -50,8 +52,11 @@ body{
 #search-input {
     width: 100%;
     max-width: 600px;
+    padding: 15px;
+    font-size: 18px;
     background-color: #2a2a2a;
     border: 1px solid #4CAF50;
+    border-radius: 5px;
     color: #ffffff;
 }
 
