@@ -109,19 +109,30 @@ function handleFileUpload(e) {
         // Now e.target.result contains the file in text format so we decrypt it and then convert it into JSON
         let dataInJSON = await passwordManager.importFromJSON(e.target.result);
         if (dataInJSON) {
-         
+            //Show password verification dialog
+            const masterPass = prompt("Please enter the master password to import passwords:");
+            
+            // Verify the entered password matches the one in file
+            if (!masterPass || masterPass !== passwordManager.data.masterPassword) {
+                //refresh after 1 sec
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+
+                return false;
+            }else{
              //Then display the passwords but keep them hidden initially
             displayPasswords(passwordManager.data.passwords);
             const items = document.querySelectorAll('.password-item');
             items.forEach(item => {
                 item.style.display = 'none'; // Keep them hidden
             });
-            alert("Request successful")
-            
+            showToast('Passwords imported successfully!', true);
+            }
            
         } else {
             // If import fails then display an error message
-            alert("error import failed")
+            showToast('Error importing passwords. Please check the file format.', false);
         }
     };
 
@@ -131,10 +142,10 @@ function handleFileUpload(e) {
 
 async function handleDownload() {
     if(passwordManager.data.passwords.length < 1){
-        alert("error download failed")
+        showToast("Download Failed: Please Add at least one password to your list", false)
     }else{
     //double checking if this is the action user wants to take
-    const confirmed = await confirm('By clicking on yes you will download all the passwords into a JSON file. Do you want to continue with this action?');
+    const confirmed = await showConfirm('By clicking on yes you will download all the passwords into a JSON file. Do you want to continue with this action?');
     console.log(confirmed)
     //double checking if this is the action user wants to take
     if (confirmed) {
@@ -155,7 +166,7 @@ async function handleDownload() {
     
 
     //display success message
-    alert("successful")
+    showToast("Passwords were downloaded successfully", true)
     } 
     }
     
@@ -208,11 +219,11 @@ function showPassword(id) {
 
             .then(() => {
                 //if successfull display the successful toast 
-                  alert("successfull")
+                showToast('Password copied to clipboard', true);
             })
             .catch(err => {
                  //if failed display the failed to copy password
-                 alert("error: failed")
+                showToast('Failed to copy password', false);
                 console.error('Failed to copy:', err);
             });
     }
@@ -220,14 +231,14 @@ function showPassword(id) {
 
 //this function would delete the specific password once clicked on the delete function
 async function deletePassword(id) {
-
+    const confirm = await showConfirm('Are you sure you want to delete this password?');
     //double check user's decision to delete the password
-    if (confirm('Are you sure you want to delete this password?')) {
+    if (confirm) {
         //call the function with the ID to delete the password
         passwordManager.deletePassword(id);
         //update the ui
         displayPasswords(passwordManager.data.passwords);
-        alert("successful")
+        showToast('Password was deleted successfully', true)
     }
 }
 
