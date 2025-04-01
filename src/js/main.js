@@ -8,11 +8,11 @@ const addModule = document.getElementById('add-modal');
 const addPasswordForm = document.getElementById('add-password-form');
 const fileUpload = document.getElementById('file-upload');
 const downloadBtn = document.getElementById('download-btn');
-const viewAllBtn = document.getElementById('view-all-btn');
-const addNewBtn = document.getElementById('add-new-btn');
 
+const addNewBtn = document.getElementById('add-new-btn');
+const viewAllBtn = document.getElementById('view-all-btn');
 // add event Listeners
-//even listener for the search input
+
 searchInput.addEventListener('input', handleSearch);
 
 //add new password submit button event listener
@@ -36,7 +36,6 @@ viewAllBtn.addEventListener('click', () => {
 });
 
 addNewBtn.addEventListener('click', () => addModule.style.display = 'block');
-
 //close the popup when adding the password on click of the X icon
 document.querySelector('.close').addEventListener('click', () => {
     addModule.style.display = 'none';
@@ -97,48 +96,6 @@ function handleAddPassword(e) {
     displayPasswords(passwordManager.data.passwords); // update the password list 
 }
 
-function handleFileUpload(e) {
-    const file = e.target.files[0];
-    if (!file) return; // Exit if no file was selected
-
-    // Use the fileReader function to create a fileReader object to read the file content
-    const reader = new FileReader();
-
-    // Set up what happens when the file is loaded
-    reader.onload = async (e) => {
-        // Now e.target.result contains the file in text format so we decrypt it and then convert it into JSON
-        let dataInJSON = await passwordManager.importFromJSON(e.target.result);
-        if (dataInJSON) {
-            //Show password verification dialog
-            const masterPass = prompt("Please enter the master password to import passwords:");
-            
-            // Verify the entered password matches the one in file
-            if (!masterPass || masterPass !== passwordManager.data.masterPassword) {
-                //refresh after 1 sec
-                setTimeout(() => {
-                    location.reload();
-                }, 1000);
-
-                return false;
-            }else{
-             //Then display the passwords but keep them hidden initially
-            displayPasswords(passwordManager.data.passwords);
-            const items = document.querySelectorAll('.password-item');
-            items.forEach(item => {
-                item.style.display = 'none'; // Keep them hidden
-            });
-            showToast('Passwords imported successfully!', true);
-            }
-           
-        } else {
-            // If import fails then display an error message
-            showToast('Error importing passwords. Please check the file format.', false);
-        }
-    };
-
-    // Start reading the file as text
-    reader.readAsText(file);
-}
 
 async function handleDownload() {
     if(passwordManager.data.passwords.length < 1){
@@ -243,3 +200,45 @@ async function deletePassword(id) {
 }
 
 
+function handleFileUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return; // Exit if no file was selected
+
+    // Use the fileReader function to create a fileReader object to read the file content
+    const reader = new FileReader();
+
+    // Set up what happens when the file is loaded
+    reader.onload = async (e) => {
+        // Now e.target.result contains the file in text format so we decrypt it and then convert it into JSON
+        let dataInJSON = await passwordManager.importFromJSON(e.target.result);
+        if (dataInJSON) {
+            //Show password verification dialog
+            const masterPass = prompt("Please enter the master password to import passwords:");
+            
+            // Verify the entered password matches the one in file
+            if (!masterPass || masterPass !== passwordManager.data.masterPassword) {
+                //refresh after 1 sec
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+
+                return false;
+            }else{
+             //Then display the passwords but keep them hidden initially
+            displayPasswords(passwordManager.data.passwords);
+            const items = document.querySelectorAll('.password-item');
+            items.forEach(item => {
+                item.style.display = 'none'; // Keep them hidden
+            });
+            showToast('Passwords imported successfully!', true);
+            }
+           
+        } else {
+            // If import fails then display an error message
+            showToast('Error importing passwords. Please check the file format.', false);
+        }
+    };
+
+    // Start reading the file as text
+    reader.readAsText(file);
+}

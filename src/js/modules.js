@@ -127,56 +127,61 @@ function encryptMasterPassword(masterPassword) {
 //decrypt the master pass
 function decryptMasterPassword(encryptedPassword) {
     let decryptedText = "";
-    
     // Decode the Base64 encoded text
-    const encryptedText = atob(encryptedPassword); 
-    
-    // Reverse the character shifting for decryption
+    const encryptedText = atob(encryptedPassword);
     for (let i = 0; i < encryptedText.length; i++) {
         decryptedText += String.fromCharCode(encryptedText.charCodeAt(i) - 3); // Shift characters back by 3
     }
-    
-    // Return the original text after decryption
     return decryptedText;
 }
 
 
 
-//Confirmation dialog function that returns true/false based on user choice
+//Confirmation returns true/false on user choice
 function masterPasswordSavedConfirm(masterPassword) {
     return new Promise((resolve) => {
         //create the popup container
         const confirmDialog = document.createElement('div');
-        //insert the html elements and style into the div
-
         //styles
         confirmDialog.style.cssText = ` 
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1000;
-            color: black;
-            position: fixed;
+            padding: 20px; 
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: white;
             max-width: 500px;
             width: 90%;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            color: black;
+            position: fixed;
+           
+
+
         `;
         //elements 
         confirmDialog.innerHTML = `
             <div style="margin-bottom: 20px; color: black;">
                 <p style="font-size: 18px; margin-bottom: 15px;">⚠️ THIS IS YOUR MASTER PASSWORD ⚠️</p>
+
                 <div style="background: #f8f8f8; padding: 10px; border-radius: 4px; margin: 10px 0; display: flex; justify-content: space-between; align-items: center;">
                     <code style="word-break: break-all;">${masterPassword}</code>
+
+
                     <button onclick="navigator.clipboard.writeText('${masterPassword}')" style="padding: 4px 8px; background: #666; color: white; border: none; border-radius: 4px; cursor: pointer;">
                         <i class="fas fa-copy"></i> Copy
                     </button>
+
                 </div>
+
+
+
                 <p style="margin-top: 15px;">This is the only time you can save your master password.</p>
                 <p style="margin-top: 5px;">Without this you <strong>can not</strong> have access to your passwords.</p>
                 <p style="margin-top: 5px;">Please save the master password safe and confirm that you have saved it by pressing on yes</p>
+
+
             </div>
             <div style="display: flex; justify-content: center;">
                 <button id="confirm-yes" style="padding: 8px 16px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Yes, I have saved the master password</button>
