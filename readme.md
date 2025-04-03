@@ -1,15 +1,15 @@
 # NovaPass - Free Password Manager
 ## Description
 
-With NovaPass, you can easily add, search, and retrieve your passwords while ensuring that your sensitive information is protected. NovaPass is a secure and user-friendly password manager that allows you to store, manage, and encrypt your passwords. 
+Nova pass is a Free password manager that stores your data locally on your personal devise instead of having a database. NovaPass has a simple and user-friendly interface so users can interact with it with ease.
 
 ## Features
-- **Secure Storage**: All passwords are encrypted using a strong encryption algorithm.
-- **User-Friendly Interface**: Simple and intuitive design for easy navigation.
-- **Search Functionality**: Quickly find your passwords using the search feature.
-- **Toast Notifications**: Non-blocking notifications to inform users of actions taken.
-- **Master Password**: A secure master password to access all stored passwords.
-- **Import/Export**: Easily import and export your passwords in JSON format.
+- **Search Functionality**: 
+- **Toast Notifications**:
+- **Master Password**: 
+- **Import/Export**:  
+- **User-Friendly Interface**:
+
 ## Installation
 
 To get started with NovaPass, follow these steps:
